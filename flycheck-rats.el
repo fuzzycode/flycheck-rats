@@ -31,6 +31,13 @@
 (require 'cl-lib)
 (require 'flycheck)
 
+(flycheck-def-option-var flycheck-rats-level 2 rats
+  "The level of warnings that RATS should search for."
+  :type '(choice (const :tag "High level only" 1)
+                 (const :tag "High and Medium level" 2)
+                 (const :tag "All Levels" 3))
+  :safe #'integerp)
+
 (defun flycheck-rats--buffer-is-header ()
   "Determine if current buffer is a header file."
   (when (buffer-file-name)
@@ -49,6 +56,7 @@ See `https://github.com/fuzzycode/flycheck-rats' for more details."
             "--resultsonly"
             "--quiet"
             "--columns"
+            (option "-w" flycheck-rats-level nil flycheck-option-int)
             source-inplace)
   :error-patterns ((info line-start (file-name) ":" line "[" column "]" ": low: " (message) line-end)
                    (warning line-start (file-name) ":" line "[" column "]" ": medium: " (message) line-end)
