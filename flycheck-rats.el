@@ -31,6 +31,13 @@
 (require 'cl-lib)
 (require 'flycheck)
 
+(defun flycheck-rats--buffer-is-header ()
+  "Determine if current buffer is a header file."
+  (when (buffer-file-name)
+    (let ((extension (file-name-extension (buffer-file-name))))
+      ;; capture .h, .hpp, .hxx etc - all start with h
+      (string-equal "h" (substring extension 0 1)))))
+
 (flycheck-define-checker rats
   "A checker using RATS from CERN
 
@@ -46,6 +53,8 @@ See `https://github.com/fuzzycode/flycheck-rats' for more details."
   :error-patterns ((info line-start (file-name) ":" line "[" column "]" ": low: " (message) line-end)
                    (warning line-start (file-name) ":" line "[" column "]" ": medium: " (message) line-end)
                    (error line-start (file-name) ":" line "[" column "]" ": high: " (message) line-end))
+  :enabled (lambda () (not (flycheck-rats--buffer-is-header)))
+
   :modes (c-mode c++-mode perl-mode php-mode python-mode)
   )
 
