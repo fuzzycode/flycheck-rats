@@ -1,6 +1,6 @@
 ;;; flycheck-rats.el --- Integrate RATS with flycheck
 
-;; Copyright (c) 2018 Björn Larsson
+;; Copyright (c) 2019 Björn Larsson
 
 ;; Author: Björn Larsson <develop@bjornlarsson.net>
 ;; Maintainer: Björn Larsson <develop@bjornlarsson.net>
@@ -30,6 +30,33 @@
 ;;; Code:
 (require 'cl-lib)
 (require 'flycheck)
+
+(flycheck-define-checker rats
+  "A checker using RATS from CERN
+
+See `https://github.com/fuzzycode/flycheck-rats' for more details."
+
+  :command ("rats"
+            "--noheader"
+            "--nofooter"
+            "--resultsonly"
+            "--quiet"
+            "--columns"
+            source-inplace)
+  :error-patterns ((info line-start (file-name) ":" line "[" column "]" ": low: " (message) line-end)
+                   (warning line-start (file-name) ":" line "[" column "]" ": medium: " (message) line-end)
+                   (error line-start (file-name) ":" line "[" column "]" ": high: " (message) line-end))
+  :modes (c-mode c++-mode perl-mode php-mode python-mode)
+  )
+
+;;;###autoload
+(defun flycheck-rats-setup ()
+  "Setup flycheck-rats.
+
+Add `rats' to `flycheck-checkers'."
+
+  (interactive)
+  (add-to-list 'flycheck-checkers 'rats t))
 
 (provide 'flycheck-rats)
 
