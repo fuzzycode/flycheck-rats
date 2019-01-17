@@ -59,8 +59,8 @@ See `https://github.com/fuzzycode/flycheck-rats' for more details."
             (option "-w" flycheck-rats-level nil flycheck-option-int)
             source-inplace)
   :error-patterns ((info line-start (file-name) ":" line "[" column "]" ": low: " (message) line-end)
-                   (warning line-start (file-name) ":" line "[" column "]" ": medium: " (message) line-end)
-                   (error line-start (file-name) ":" line "[" column "]" ": high: " (message) line-end))
+                   (info line-start (file-name) ":" line "[" column "]" ": medium: " (message) line-end)
+                   (info line-start (file-name) ":" line "[" column "]" ": high: " (message) line-end))
   :enabled (lambda () (not (flycheck-rats--buffer-is-header)))
 
   :modes (c-mode c++-mode perl-mode php-mode python-mode)
