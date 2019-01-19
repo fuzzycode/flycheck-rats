@@ -1,0 +1,44 @@
+
+[[http://spacemacs.org][file:https://cdn.rawgit.com/syl20bnr/spacemacs/442d025779da2f62fc86c2082703697714db6514/assets/spacemacs-badge.svg]]
+
+* Table of Content
+:PROPERTIES:
+:TOC:      this
+:END:
+  -  [[#summary][Summary]]
+  -  [[#installation][Installation]]
+  -  [[#references][References]]
+  -  [[#license][License]]
+
+* Summary
+  Provides a flycheck integration for the "Rough Auditing Tool for Security"
+  (RATS) from CERN.
+
+* Installation
+  #+BEGIN_SRC emacs-lisp
+    (use-package flycheck-rats
+      :after flycheck
+      :config (flycheck-rats-setup))
+  #+END_SRC
+
+  To make sure that it gets executed, make sure that it is added to the list of
+  checkers by calling something like.
+
+#+BEGIN_SRC emacs-lisp
+  (flycheck-add-next-checker 'c/c++-cppcheck '(t . rats))
+#+END_SRC
+
+Make sure to replace ~c/c++-cppcheck~ for the checker that you want to have
+executed in front of ~flycheck-rats~.
+
+* References
+  - [[https://security.web.cern.ch/security/recommendations/en/codetools/rats.shtml][RATS Home Page]]
+  - [[https://www.flycheck.org/en/latest/][Flycheck]]
+* License
+  Copyright (C) 2019 Björn Larsson
+
+  Distributed under GNU GPL, version 3. See [[https://github.com/fuzzycode/flycheck-rats/blob/master/LICENSE][LICENSE]] file for more details.
+
+# Local Variables:
+# before-save-hook: org-make-toc
+# End:
